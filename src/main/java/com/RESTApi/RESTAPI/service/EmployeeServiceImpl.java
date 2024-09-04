@@ -1,46 +1,49 @@
 package com.RESTApi.RESTAPI.service;
 
-import com.RESTApi.RESTAPI.dao.EmployeeDAO;
+import com.RESTApi.RESTAPI.Repository.EmployeeRepo;
 import com.RESTApi.RESTAPI.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-private EmployeeDAO employeeDAO;
+private EmployeeRepo employeerepo;
 @Autowired
-public EmployeeServiceImpl(EmployeeDAO employeeDAO) {
-        this.employeeDAO = employeeDAO;
+public EmployeeServiceImpl(EmployeeRepo employeerepo) {
+        this.employeerepo = employeerepo;
     }
 
     @Override
     public List<Employee> findAll() {
-        return employeeDAO.findAll();
+        return employeerepo.findAll();
     }
 
     @Override
     public Employee findById(int id) {
-        return employeeDAO.findById(id);
+        Optional<Employee> theemployee = employeerepo.findById(id);
+        Employee emp=null;
+        if(theemployee.isPresent()){
+           emp= theemployee.get();
+        }
+        return emp;
     }
 
     @Override
-    @Transactional
     public void addEmployee(Employee employee) {
-        employeeDAO.addEmployee(employee);
+        employeerepo.save(employee);
     }
 
     @Override
-    @Transactional
     public Employee updateEmployee(Employee employee) {
-        return employeeDAO.updateEmployee(employee);
+        return employeerepo.save(employee);
     }
 
     @Override
-    @Transactional
     public void deleteEmplyee(int id) {
-        employeeDAO.deleteEmplyee(id);
+        employeerepo.deleteById(id);
     }
 }

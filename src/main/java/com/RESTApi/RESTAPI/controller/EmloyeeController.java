@@ -1,7 +1,6 @@
 package com.RESTApi.RESTAPI.controller;
 
 
-import com.RESTApi.RESTAPI.dao.EmployeeDAO;
 import com.RESTApi.RESTAPI.entity.Employee;
 import com.RESTApi.RESTAPI.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +35,7 @@ public class EmloyeeController {
 
     @PutMapping("/employees")
     public Employee updateEmployee(@RequestBody Employee employee){
+    employee.setId(0);
     return employeeService.updateEmployee(employee);
     }
 
